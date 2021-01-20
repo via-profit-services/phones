@@ -14,7 +14,6 @@ const phoneResolver = new Proxy<PhoneResolver>({
   description: () => ({}),
   metaData: () => ({}),
   countryCallingCode: () => ({}),
-  // numberType: () => ({}),
   formatted: () => ({}),
 }, {
   get: (target, prop: keyof PhoneResolver) => {
