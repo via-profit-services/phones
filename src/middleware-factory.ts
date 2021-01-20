@@ -27,16 +27,17 @@ const middlewareFactory: MiddlewareFactory = (configuration) => {
     return pool;
   };
 
-  const typeList = [...entities || []].concat(['VoidPhoneEntity']);
+  const typeList = new Set(entities);
+  typeList.add('VoidPhoneEntity');
 
   return {
     middleware,
     resolvers,
     typeDefs: `
       ${typeDefs}
-      union PhoneEntity = ${typeList.join(' | ')}
+      union PhoneEntity = ${[...typeList].join(' | ')}
       enum PhoneType {
-        ${typeList.join(',\n')}
+        ${[...typeList].join(',\n')}
       }
       `,
   };
