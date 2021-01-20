@@ -89,7 +89,7 @@ input PhoneInputCreate {
 }
 
 input PhoneInputUpdate {
-  id: ID
+  id: ID!
   entity: ID
   type: PhoneType
   number: String
@@ -220,7 +220,7 @@ type PhonesMutation {
   """
   Update exists phone data
   """
-  update(id: ID!, input: PhoneInputUpdate!): Phone!
+  update(input: PhoneInputUpdate!): Phone!
   
   """
   Delete one or more phones

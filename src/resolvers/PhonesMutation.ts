@@ -4,7 +4,8 @@ import type { Resolvers } from '@via-profit-services/phones';
 
 const phonesMutationResolver: Resolvers['PhonesMutation'] = {
   update: async (_parent, args, context) => {
-    const { id, input } = args;
+    const { input } = args;
+    const { id } = input;
     const { dataloader, services } = context;
 
     try {
