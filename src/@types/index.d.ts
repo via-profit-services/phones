@@ -7,7 +7,6 @@
 declare module '@via-profit-services/phones' {
   import { GraphQLFieldResolver } from 'graphql';
   import { Context, Middleware, InputFilter, OutputFilter, ListResponse } from '@via-profit-services/core';
-  import { NumberType } from 'libphonenumber-js';
 
   export type Configuration = {
     /**
