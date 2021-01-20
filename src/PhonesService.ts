@@ -20,6 +20,22 @@ class PhonesService {
     this.props = props;
   }
 
+  public async getPhonesByEntities(entitiesIDs: string[]): Promise<ListResponse<Phone>> {
+    const phones = await this.getPhones({
+      limit: Number.MAX_SAFE_INTEGER,
+      where: [
+        ['entity', 'in', entitiesIDs],
+      ],
+    });
+
+    return phones;
+  }
+
+  public async getPhonesByEntity(entityID: string): Promise<ListResponse<Phone>> {
+    return this.getPhonesByEntities([entityID]);
+  }
+
+
   public async getPhones(filter: Partial<OutputFilter>): Promise<ListResponse<Phone>> {
     const { context } = this.props;
     const { knex } = context;
@@ -141,6 +157,19 @@ class PhonesService {
 
   public async deletePhone(id: string) {
     return this.deletePhones([id]);
+  }
+
+  public async deletePhonesByEntities(entitiesIDs: string[]): Promise<void> {
+    const { context } = this.props;
+    const { knex } = context;
+
+    await knex<PhonesTableModel>('phones')
+      .del()
+      .whereIn('entity', entitiesIDs);
+  }
+
+  public async deletePhonesByEntity(entityID: string): Promise<void> {
+    return this.deletePhonesByEntities([entityID]);
   }
 
 }

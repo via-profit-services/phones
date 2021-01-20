@@ -70,6 +70,10 @@ declare module '@via-profit-services/phones' {
     createPhone(phoneData: Partial<Phone>): Promise<string>;
     deletePhones(ids: string[]): Promise<void>;
     deletePhone(id: string): Promise<void>;
+    getPhonesByEntities(entitiesIDs: string[]): Promise<ListResponse<Phone>>;
+    getPhonesByEntity(entityID: string): Promise<ListResponse<Phone>>;
+    deletePhonesByEntities(entitiesIDs: string[]): Promise<void>;
+    deletePhonesByEntity(entityID: string): Promise<void>;
   }
 
 
