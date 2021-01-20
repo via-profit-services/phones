@@ -9,6 +9,10 @@ const webpackBaseConfig: Configuration = {
         test: /\.ts$/,
         use: 'ts-loader',
       },
+      {
+        test: /\.graphql$/,
+        use: 'raw-loader',
+      },
     ],
   },
   node: {
@@ -16,7 +20,7 @@ const webpackBaseConfig: Configuration = {
     __dirname: true,
   },
   resolve: {
-    extensions: ['.ts', '.mjs', '.js', '.json'],
+    extensions: ['.ts', '.mjs', '.js', '.graphql'],
   },
   externals: [
     ...knexExternals,

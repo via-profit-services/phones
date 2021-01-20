@@ -1,9 +1,12 @@
 import { Middleware, ServerError } from '@via-profit-services/core';
-import type { MiddlewareFactory } from '@via-profit-services/phones';
+import type { MiddlewareFactory, Configuration } from '@via-profit-services/phones';
 
 import contextMiddleware from './context-middleware';
+import resolvers from './resolvers';
+import typeDefs from './schema.graphql';
 
-const middlewareFactory: MiddlewareFactory = () => {
+const middlewareFactory: MiddlewareFactory = (configuration) => {
+  const { entities } = configuration || {} as Configuration;
 
   const pool: ReturnType<Middleware> = {
     context: null,
@@ -24,7 +27,19 @@ const middlewareFactory: MiddlewareFactory = () => {
     return pool;
   };
 
-  return middleware;
+  const typeList = [...entities || []].concat(['VoidPhoneEntity']);
+
+  return {
+    middleware,
+    resolvers,
+    typeDefs: `
+      ${typeDefs}
+      union PhoneEntity = ${typeList.join(' | ')}
+      enum PhoneType {
+        ${typeList.join(',\n')}
+      }
+      `,
+  };
 };
 
 export default middlewareFactory;

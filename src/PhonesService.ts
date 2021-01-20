@@ -1,5 +1,4 @@
-import '@via-profit-services/redis';
-import { OutputFilter, ListResponse } from '@via-profit-services/core';
+import { OutputFilter, ListResponse, Node } from '@via-profit-services/core';
 import {
   convertWhereToKnex, convertOrderByToKnex,
   convertSearchToKnex, extractTotalCountPropOfNode,
@@ -10,6 +9,7 @@ import type {
   PhonesTableModelResult,
   PhonesTableModel,
 } from '@via-profit-services/phones';
+import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import moment from 'moment-timezone';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -19,7 +19,6 @@ class PhonesService {
   public constructor(props: PhonesServiceProps) {
     this.props = props;
   }
-
 
   public async getPhones(filter: Partial<OutputFilter>): Promise<ListResponse<Phone>> {
     const { context } = this.props;
@@ -37,12 +36,29 @@ class PhonesService {
       .where((builder) => convertSearchToKnex(builder, search))
       .limit(limit || 1)
       .offset(offset || 0)
-      .then((nodes) => nodes.map((node) => ({
-        ...node,
-        owner: !node.owner ? null : {
-          id: node.owner,
-        },
-      })))
+      .then((nodes) => nodes.map((node) => {
+
+        const phoneNumber = parsePhoneNumberFromString(
+          node.number,
+          node.country as CountryCode,
+        );
+
+        const phoneNode: Node<Phone> & Pick<PhonesTableModelResult, 'totalCount'> = {
+          ...node,
+          formatted: {
+            national: phoneNumber.formatNational(),
+            international: phoneNumber.formatInternational(),
+            uri: phoneNumber.getURI(),
+          },
+          countryCallingCode: String(phoneNumber.countryCallingCode || ''),
+          numberType: phoneNumber.getType(),
+          entity: !node.entity ? null : {
+            id: node.entity,
+          },
+        };
+
+        return phoneNode;
+      }))
       .then((nodes) => ({
         ...extractTotalCountPropOfNode(nodes),
           offset,
@@ -76,7 +92,7 @@ class PhonesService {
     const { timezone } = context;
     const phoneData: Partial<PhonesTableModel> = {
       ...input,
-      owner: input.owner ? input.owner.id : undefined,
+      entity: input.entity ? input.entity.id : undefined,
       metaData: input.metaData ? JSON.stringify(input.metaData) : undefined,
       createdAt: input.createdAt ? moment.tz(input.createdAt, timezone).format() : undefined,
       updatedAt: input.updatedAt ? moment.tz(input.updatedAt, timezone).format() : undefined,
@@ -109,7 +125,7 @@ class PhonesService {
       createdAt,
       updatedAt: createdAt,
     });
-    const result = await knex<PhonesTableModel>('accounts').insert(data).returning('id');
+    const result = await knex<PhonesTableModel>('phones').insert(data).returning('id');
 
     return result[0];
   }

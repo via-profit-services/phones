@@ -2,26 +2,46 @@
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { factory, resolvers, typeDefs } from '@via-profit-services/core';
 import * as knex from '@via-profit-services/knex';
+import dotenv from 'dotenv';
 import express from 'express';
 import { createServer } from 'http';
 
-import * as phones from '../index';
+import { factory as phonesFactory } from '../index';
+
+dotenv.config();
 
 (async () => {
 
   const port = Number(process.env.PORT);
   const app = express();
   const server = createServer(app);
-  const phonesMiddleware = phones.factory();
+
+  const phones = phonesFactory({
+    entities: ['SomePerson'],
+  });
 
   const schema = makeExecutableSchema({
     typeDefs: [
       typeDefs,
       phones.typeDefs,
+      `
+      """Just for example"""
+      type SomePerson {
+        id: ID!
+        name: String!
+        phones: [Phone!]
+      }`,
     ],
     resolvers: [
       resolvers,
       phones.resolvers,
+      {
+        SomePerson: {
+          id: () => 'c39c67fc-10da-4856-886d-7e9e04309a38',
+          name: () => 'Some person name',
+          phones: () => [{ id: '9a10caa2-ec4a-4582-a4ad-2360a909197e' }],
+        },
+      },
     ],
   });
 
@@ -40,7 +60,7 @@ import * as phones from '../index';
     debug: process.env.DEBUG === 'true',
     middleware: [
       knexMiddleware,
-      phonesMiddleware,
+      phones.middleware,
     ],
   });
 

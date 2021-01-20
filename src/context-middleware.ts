@@ -15,7 +15,7 @@ const contextMiddleware = (props: Props): Context => {
   context.services.phones = new PhonesService({ context });
 
   // Phones Dataloader
-  context.dataloader.users = new DataLoader(async (ids: string[]) => {
+  context.dataloader.phones = new DataLoader(async (ids: string[]) => {
     const nodes = await context.services.phones.getPhonesByIds(ids);
 
     return collateForDataloader(ids, nodes);
