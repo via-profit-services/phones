@@ -36,7 +36,7 @@ declare module '@via-profit-services/phones' {
     };
 
     // -- addons fields
-    numberType: NumberType;
+    // numberType: NumberType;
     countryCallingCode: string;
     formatted: PhoneFormatted;
   }

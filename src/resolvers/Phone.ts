@@ -14,7 +14,7 @@ const phoneResolver = new Proxy<PhoneResolver>({
   description: () => ({}),
   metaData: () => ({}),
   countryCallingCode: () => ({}),
-  numberType: () => ({}),
+  // numberType: () => ({}),
   formatted: () => ({}),
 }, {
   get: (target, prop: keyof PhoneResolver) => {
@@ -24,7 +24,6 @@ const phoneResolver = new Proxy<PhoneResolver>({
 
       const phone = await dataloader.phones.load(id);
       try {
-
         if (prop === 'entity') {
           return {
             __typename: phone.type,

@@ -67,7 +67,7 @@ class PhonesService {
             uri: phoneNumber.getURI(),
           },
           countryCallingCode: String(phoneNumber.countryCallingCode || ''),
-          numberType: phoneNumber.getType(),
+          // numberType: phoneNumber.getType(),
           entity: !node.entity ? null : {
             id: node.entity,
           },
