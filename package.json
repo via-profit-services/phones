@@ -1,7 +1,7 @@
 {
     "name": "@via-profit-services/phones",
     "support": "https://via-profit.ru",
-    "version": "1.0.0-rc.2",
+    "version": "1.0.0-rc.3",
     "description": "Via Profit Phones provider",
     "main": "dist/index.js",
     "engines": {
@@ -14,6 +14,7 @@
         "phones"
     ],
     "scripts": {
+        "postinstall": "node ./scripts/postinstall.js",
         "dist": "yarn lint && yarn test && yarn build:dist",
         "analyze": "cross-env ANALYZE=true yarn build:dist",
         "debug": "yarn build:dev && yarn node --inspect-brk=9229 ./build/index.js",
