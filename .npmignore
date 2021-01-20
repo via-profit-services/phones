@@ -1,4 +1,10 @@
-.*
+.yarn/*
+.env
+.knex/knexfile.js
+.vscode/*
+.eslintignore
+.eslintrc
+.prettierrc
 /assets
 /build
 /docs
