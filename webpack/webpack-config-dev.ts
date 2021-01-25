@@ -24,6 +24,9 @@ const webpackDevConfig: Configuration = merge(webpackBaseConfig, {
       watch: ['./build'],
     }) as WebpackPluginInstance,
   ],
+  externals: [
+    /express/,
+  ],
 });
 
 export default webpackDevConfig;

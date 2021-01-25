@@ -1,10 +1,37 @@
-type Phone implements Node {
-  id: ID!
+extend type Query {
+  phones: PhonesQuery!
+}
+
+extend type Mutation {
+  phones: PhonesMutation!
+}
+
+type PhoneFormat {
 
   """
-  Phone owner ID
+  Phone number as national format
+  e.g. 8 (987) 654-32-10 
   """
-  owner: ID!
+  national: String!
+
+  """
+  Phone number as international format
+  e.g. +7 987 654 32 10 
+  """
+  international: String!
+
+  """
+  Phone number as URI format
+  e.g. tel:+79876543210 
+  """
+  uri: String!
+
+}
+
+type Phone implements Node {
+  id: ID!
+  entity: PhoneEntity!
+  type: PhoneType!
   createdAt: DateTime!
   updatedAt: DateTime!
 
@@ -36,12 +63,53 @@ type Phone implements Node {
   You can store any information here
   """
   metaData: JSON
+
+  """
+  Country calling code for a country
+  """
+  countryCallingCode: String!
+
+  formatted: PhoneFormat!
+}
+
+enum PhoneCountry {
+  AC, AD, AE, AF, AG, AI, AL, AM, AO, AR, AS, AT, AU, AW, AX, AZ, BA, BB, BD, BE, BF, BG, BH, BI, BJ, BL, BM, BN, BO, BQ, BR, BS, BT, BW, BY, BZ, CA, CC, CD, CF, CG, CH, CI, CK, CL, CM, CN, CO, CR, CU, CV, CW, CX, CY, CZ, DE, DJ, DK, DM, DO, DZ, EC, EE, EG, EH, ER, ES, ET, FI, FJ, FK, FM, FO, FR, GA, GB, GD, GE, GF, GG, GH, GI, GL, GM, GN, GP, GQ, GR, GT, GU, GW, GY, HK, HN, HR, HT, HU, ID, IE, IL, IM, IN, IO, IQ, IR, IS, IT, JE, JM, JO, JP, KE, KG, KH, KI, KM, KN, KP, KR, KW, KY, KZ, LA, LB, LC, LI, LK, LR, LS, LT, LU, LV, LY, MA, MC, MD, ME, MF, MG, MH, MK, ML, MM, MN, MO, MP, MQ, MR, MS, MT, MU, MV, MW, MX, MY, MZ, NA, NC, NE, NF, NG, NI, NL, NO, NP, NR, NU, NZ, OM, PA, PE, PF, PG, PH, PK, PL, PM, PR, PS, PT, PW, PY, QA, RE, RO, RS, RU, RW, SA, SB, SC, SD, SE, SG, SH, SI, SJ, SK, SL, SM, SN, SO, SR, SS, ST, SV, SX, SY, SZ, TA, TC, TD, TG, TH, TJ, TK, TL, TM, TN, TO, TR, TT, TV, TW, TZ, UA, UG, US, UY, UZ, VA, VC, VE, VG, VI, VN, VU, WF, WS, XK, YE, YT, ZA, ZM, ZW
+}
+
+input PhoneInputCreate {
+  id: ID
+  entity: ID!
+  number: String!
+  type: PhoneType!
+  country: PhoneCountry!
+  description: String!
+  primary: Boolean!
+  confirmed: Boolean!
+  metaData: JSON
+}
+
+input PhoneInputUpdate {
+  id: ID!
+  entity: ID
+  type: PhoneType
+  number: String
+  country: PhoneCountry
+  description: String
+  primary: Boolean
+  confirmed: Boolean
+  metaData: JSON
 }
 
 """
 Possible data to update phone entity
 """
 input PhoneInput {
+  id: ID
+
+  """
+  Phone owner ID
+  """
+  entity: ID
   """
   Phone number (digits) without country code
   e.g. for Russia: 9876543210
@@ -51,7 +119,7 @@ input PhoneInput {
   Country code iso2
   e.g. for Russia: RU
   """
-  country: String!
+  country: PhoneCountry!
   """
   Description
   e.g. Director personal
@@ -70,4 +138,117 @@ input PhoneInput {
   You can store any information here
   """
   metaData: JSON
+}
+
+
+
+enum PhoneOrderField {
+  number
+  country
+  entity
+  type
+  confirmed
+  primary
+  createdAt
+  updatedAt
+}
+
+"""
+Ordering options for phones returned from the connection
+"""
+input PhoneOrderBy {
+  field: PhoneOrderField!
+  direction: OrderDirection!
+}
+
+"""
+Possible data to filter list of phones
+"""
+input PhoneListFilter {
+  entity: [ID!]
+  number: [String!]
+  country: [PhoneCountry!]
+  confirmed: Boolean
+  primary: Boolean
+}
+
+"""
+Possible fields to search phones
+"""
+enum PhoneFilterSearchField {
+  number
+  description
+}
+
+"""
+Phones search filter
+"""
+input PhoneFilterSearch {
+  fields: [PhoneFilterSearchField!]!
+
+  """
+  Search query string
+  """
+  query: String!
+}
+
+type PhonesQuery {
+  """
+  Returns Phones list bundle
+  """
+  list(
+    first: Int
+    offset: Int
+    after: String
+    orderBy: [PhoneOrderBy!]
+    filter: PhoneListFilter
+    search: PhoneFilterSearch
+  ): PhoneListConnection!
+
+  """
+  Returns phone if exists
+  """
+  phone(id: ID!): Phone
+}
+
+type PhonesMutation {
+  """
+  Create new phone
+  """
+  create(input: PhoneInputCreate!): Phone!
+
+  """
+  Update exists phone data
+  """
+  update(input: PhoneInputUpdate!): Phone!
+  
+  """
+  Delete one or more phones
+  """
+  delete(id: ID, ids: [ID!]): Void
+}
+
+"""
+Phones list bundle
+"""
+type PhoneListConnection {
+  totalCount: Int!
+  pageInfo: PageInfo!
+  edges: [PhonesEdge!]!
+}
+
+"""
+Phone edge bundle
+"""
+type PhonesEdge implements Edge {
+  node: Phone!
+  cursor: String!
+}
+
+"""
+Dummy type.
+Not for usage
+"""
+type VoidPhoneEntity {
+  voidPhoneEntityField: Void
 }

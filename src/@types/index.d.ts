@@ -8,7 +8,16 @@ declare module '@via-profit-services/phones' {
   import { GraphQLFieldResolver } from 'graphql';
   import { Context, Middleware, InputFilter, OutputFilter, ListResponse } from '@via-profit-services/core';
 
-  export type Configuration = {};
+  export type Configuration = {
+    /**
+     * You can add Account entities.\
+     * The entities that will be passed here will be added 
+     * to the types: \
+     * `enum AccountType` \
+     * `union AccountEntity`
+     */
+    entities?: string[];
+  };
 
   export interface Phone {
     id: string;
@@ -20,12 +29,27 @@ declare module '@via-profit-services/phones' {
     primary: boolean;
     confirmed: boolean;
     metaData?: any;
-    owner: null | {
+    type: string;
+    entity: {
       id: string;
     };
+
+    // -- addons fields
+    countryCallingCode: string;
+    formatted: PhoneFormatted;
   }
 
-  export type MiddlewareFactory = (configuration?: Configuration) => Middleware;
+  export interface PhoneFormatted {
+    national: string;
+    international: string;
+    uri: string;
+  }
+
+  export type MiddlewareFactory = (configuration?: Configuration) => {
+    middleware: Middleware;
+    typeDefs: string;
+    resolvers: Resolvers;
+  };
 
   /**
    * Accounts service constructor props
@@ -44,6 +68,10 @@ declare module '@via-profit-services/phones' {
     createPhone(phoneData: Partial<Phone>): Promise<string>;
     deletePhones(ids: string[]): Promise<void>;
     deletePhone(id: string): Promise<void>;
+    getPhonesByEntities(entitiesIDs: string[]): Promise<ListResponse<Phone>>;
+    getPhonesByEntity(entityID: string): Promise<ListResponse<Phone>>;
+    deletePhonesByEntities(entitiesIDs: string[]): Promise<void>;
+    deletePhonesByEntity(entityID: string): Promise<void>;
   }
 
 
@@ -56,8 +84,9 @@ declare module '@via-profit-services/phones' {
     readonly description: string;
     readonly primary: boolean;
     readonly confirmed: boolean;
-    readonly metaData?: any;
-    readonly owner: string;
+    readonly metaData: unknown | null;
+    readonly type: string;
+    readonly entity: string;
   }
 
   export interface PhonesTableModelResult {
@@ -69,8 +98,9 @@ declare module '@via-profit-services/phones' {
     readonly description: string;
     readonly primary: boolean;
     readonly confirmed: boolean;
-    readonly metaData?: any;
-    readonly owner: string | null;
+    readonly metaData: unknown | null;
+    readonly type: string;
+    readonly entity: string;
     readonly totalCount: number;
   }
 
@@ -79,23 +109,59 @@ declare module '@via-profit-services/phones' {
     Query: {
       phones: GraphQLFieldResolver<unknown, Context>;
     };
+    Mutation: {
+      phones: GraphQLFieldResolver<unknown, Context>;
+    };
     PhonesQuery: {
       list: GraphQLFieldResolver<unknown, Context, InputFilter>;
       phone: GraphQLFieldResolver<unknown, Context, {
         id: string;
       }>;
     };
+    PhonesMutation: {
+      create: GraphQLFieldResolver<unknown, Context, {
+        input: {
+          id?: string;
+          number: string;
+          country: string;
+          description: string;
+          primary: boolean;
+          confirmed: boolean;
+          type: string;
+          entity: string;
+          metaData?: any;
+        };
+      }>;
+      update: GraphQLFieldResolver<unknown, Context, {
+        id: string;
+        input: {
+          id?: string;
+          number?: string;
+          country?: string;
+          description?: string;
+          primary?: boolean;
+          confirmed?: boolean;
+          type?: string;
+          entity?: string;
+          metaData?: any;
+        };
+      }>;
+      delete: GraphQLFieldResolver<unknown, Context, {
+        id?: string;
+        ids?: string[];
+      }>;
+    };
     Phone: PhoneResolver;
   };
 
-  export type PhoneResolver = Record<keyof Phone, GraphQLFieldResolver<{  id: string }, Context>>
+  export type PhoneResolver = Record<keyof Phone, GraphQLFieldResolver<{  id: string }, Context>>;
 
   export const factory: MiddlewareFactory;
 }
 
 
 declare module '@via-profit-services/core' {
-  import { PhonesService } from '@via-profit-services/phones';
+  import { PhonesService, Phone } from '@via-profit-services/phones';
   import DataLoader from 'dataloader';
 
   interface ServicesCollection {
@@ -109,6 +175,6 @@ declare module '@via-profit-services/core' {
     /**
      * Accounts dataloader
      */
-    accounts: DataLoader<string, Node<Phone>>;
+    phones: DataLoader<string, Node<Phone>>;
   }
 }
