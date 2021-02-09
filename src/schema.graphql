@@ -79,8 +79,8 @@ enum PhoneCountry {
 input PhoneInputCreate {
   id: ID
   entity: ID!
-  number: String!
   type: PhoneType!
+  number: String!
   country: PhoneCountry!
   description: String!
   primary: Boolean!
@@ -99,48 +99,6 @@ input PhoneInputUpdate {
   confirmed: Boolean
   metaData: JSON
 }
-
-"""
-Possible data to update phone entity
-"""
-input PhoneInput {
-  id: ID
-
-  """
-  Phone owner ID
-  """
-  entity: ID
-  """
-  Phone number (digits) without country code
-  e.g. for Russia: 9876543210
-  """
-  number: String!
-  """
-  Country code iso2
-  e.g. for Russia: RU
-  """
-  country: PhoneCountry!
-  """
-  Description
-  e.g. Director personal
-  """
-  description: String!
-  """
-  Is primary phone number
-  """
-  primary: Boolean!
-  """
-  Is confirmed phone number
-  """
-  confirmed: Boolean!
-  """
-  Any phone data
-  You can store any information here
-  """
-  metaData: JSON
-}
-
-
 
 enum PhoneOrderField {
   number
