@@ -44,7 +44,7 @@ type Phone implements Node {
   Country code iso2
   e.g. for Russia: RU
   """
-  country: String!
+  country: PhoneCountry!
   """
   Description
   e.g. Director personal
