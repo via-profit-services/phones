@@ -1024,9 +1024,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@via-profit-services/core@file://home/dhs/Projects/@via-profit-services/core/package-1.0.0-rc.2.tgz::locator=%40via-profit-services%2Fphones%40workspace%3A.":
-  version: 1.0.0-rc.2
-  resolution: "@via-profit-services/core@file://home/dhs/Projects/@via-profit-services/core/package-1.0.0-rc.2.tgz::locator=%40via-profit-services%2Fphones%40workspace%3A."
+"@via-profit-services/core@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@via-profit-services/core@npm:1.0.2"
   dependencies:
     bufferutil: ^4.0.2
     content-type: ^1.0.4
@@ -1045,7 +1045,7 @@ __metadata:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: f999397aa1e60d65ef0eb879205fa622e9e6bda243128cc508507f8e55738b55402b5d963b3a3d245529f0d1bda584c3509ff273f4e2e0dc6489291e83628326
+  checksum: 18dc82c9317d5b2403789c00d6217ffad9acda1990f995b2da1b2b480e87ec02d70ae3c31f0fd57f031eabb018f86d6e3f057b7245b4f6f5460c25c3e8f9493e
   languageName: node
   linkType: hard
 
@@ -1056,14 +1056,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@via-profit-services/knex@file://home/dhs/Projects/@via-profit-services/knex/package-1.0.0-rc.1.tgz::locator=%40via-profit-services%2Fphones%40workspace%3A.":
-  version: 1.0.0-rc.1
-  resolution: "@via-profit-services/knex@file://home/dhs/Projects/@via-profit-services/knex/package-1.0.0-rc.1.tgz::locator=%40via-profit-services%2Fphones%40workspace%3A."
+"@via-profit-services/knex@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@via-profit-services/knex@npm:1.0.2"
   peerDependencies:
     "@via-profit-services/core": 1.x.x
-    knex: 1.x.x
+    knex: ^0.21.12
     pg: ^8.5.1
-  checksum: 0892df69eac7fff4bbb1bbf4a56c9dcea9b6ae87feb9a92903a50f2bb193e53403903f92f2d76d6bb30449ee5a737f66ef98c771d2d68beff2a169ad37826c22
+  checksum: 8ae338062b5f2d547bbaa6776349540b32bf61d8b0b2a5476ec2a068e60b90e50b121dadcdd6635d48860846190d380522303c71eb7fa6027f2019cf6dd2a08c
   languageName: node
   linkType: hard
 
@@ -1087,9 +1087,9 @@ __metadata:
     "@types/webpack-merge": ^4.1.5
     "@typescript-eslint/eslint-plugin": ^4.6.1
     "@typescript-eslint/parser": ^4.6.1
-    "@via-profit-services/core": "file://home/dhs/Projects/@via-profit-services/core/package-1.0.0-rc.2.tgz"
+    "@via-profit-services/core": ^1.0.2
     "@via-profit-services/eslint-config": ^0.1.11
-    "@via-profit-services/knex": "file://home/dhs/Projects/@via-profit-services/knex/package-1.0.0-rc.1.tgz"
+    "@via-profit-services/knex": ^1.0.2
     "@zerollup/ts-transform-paths": ^1.7.11
     cross-env: ^6.0.3
     dataloader: ^2.0.0
@@ -1140,6 +1140,7 @@ __metadata:
     "@via-profit-services/core": ^1.0.0
     "@via-profit-services/knex": ^1.0.0
     dataloader: "*"
+    libphonenumber-js: "*"
     moment: ""
     moment-timezone: "*"
     uuid: "*"

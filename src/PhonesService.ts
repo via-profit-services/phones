@@ -8,6 +8,8 @@ import type {
   PhonesServiceProps,
   PhonesTableModelResult,
   PhonesTableModel,
+  PhoneCreateInput,
+  PhoneUpdateInput,
 } from '@via-profit-services/phones';
 import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import moment from 'moment-timezone';
@@ -102,12 +104,13 @@ class PhonesService {
   }
 
 
-  public prepareDataToInsert(input: Partial<Phone>): Partial<PhonesTableModel> {
+  public prepareDataToInsert(
+    input: Partial<PhoneCreateInput | PhoneUpdateInput>,
+    ): Partial<PhonesTableModel> {
     const { context } = this.props;
     const { timezone } = context;
     const phoneData: Partial<PhonesTableModel> = {
       ...input,
-      entity: input.entity ? input.entity.id : undefined,
       metaData: input.metaData ? JSON.stringify(input.metaData) : undefined,
       createdAt: input.createdAt ? moment.tz(input.createdAt, timezone).format() : undefined,
       updatedAt: input.updatedAt ? moment.tz(input.updatedAt, timezone).format() : undefined,
@@ -116,7 +119,7 @@ class PhonesService {
     return phoneData;
   }
 
-  public async updatePhone(id: string, phoneData: Partial<Phone>) {
+  public async updatePhone(id: string, phoneData: Partial<PhoneUpdateInput>) {
     const { knex, timezone } = this.props.context;
 
     const data = this.prepareDataToInsert({
@@ -130,7 +133,7 @@ class PhonesService {
       .returning('id');
   }
 
-  public async createPhone(phoneData: Partial<Phone>) {
+  public async createPhone(phoneData: Partial<PhoneCreateInput>) {
     const { knex, timezone } = this.props.context;
     const createdAt = moment.tz(timezone).toDate();
 
@@ -169,6 +172,21 @@ class PhonesService {
 
   public async deletePhonesByEntity(entityID: string): Promise<void> {
     return this.deletePhonesByEntities([entityID]);
+  }
+
+  public async rebaseTypes(types: string[]): Promise<void> {
+    const { context } = this.props;
+    const { knex } = context;
+
+    const payload = types.map((type) => ({ type }));
+    await knex.raw(`${knex('phonesTypes').insert(payload).toString()} on conflict ("type") do nothing;`);
+    await knex('phonesTypes').del().whereNotIn('type', types);
+  }
+
+  public getEntitiesTypes() {
+    const { entities } = this.props;
+
+    return entities;
   }
 
 }

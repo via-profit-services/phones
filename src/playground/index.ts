@@ -16,7 +16,7 @@ dotenv.config();
   const app = express();
   const server = createServer(app);
 
-  const phones = phonesFactory({
+  const phones = await phonesFactory({
     entities: ['SomePerson'],
   });
 
