@@ -39,23 +39,30 @@ declare module '@via-profit-services/phones' {
     formatted: PhoneFormatted;
   }
 
+   export type PhoneCreateInput = Omit<Phone, 'entity' | 'countryCallingCode' | 'formatted'> & {
+     entity: string;
+   };
+
+   export type PhoneUpdateInput = PhoneCreateInput;
+
   export interface PhoneFormatted {
     national: string;
     international: string;
     uri: string;
   }
 
-  export type MiddlewareFactory = (configuration?: Configuration) => {
+  export type MiddlewareFactory = (configuration?: Configuration) => Promise<{
     middleware: Middleware;
     typeDefs: string;
     resolvers: Resolvers;
-  };
+  }>;
 
   /**
    * Accounts service constructor props
    */
   export interface PhonesServiceProps {
     context: Context;
+    entities: string[];
   }
 
   class PhonesService {
@@ -63,15 +70,17 @@ declare module '@via-profit-services/phones' {
     getPhones(filter: Partial<OutputFilter>): Promise<ListResponse<Phone>>;
     getPhonesByIds(ids: string[]): Promise<Phone[]>;
     getPhone(id: string): Promise<Phone | false>;
-    prepareDataToInsert(input: Partial<Phone>): Partial<PhonesTableModel>;
-    updatePhone(id: string, phoneData: Partial<Phone>): Promise<void>;
-    createPhone(phoneData: Partial<Phone>): Promise<string>;
+    prepareDataToInsert(input: Partial<PhoneCreateInput | PhoneUpdateInput>): Partial<PhonesTableModel>;
+    updatePhone(id: string, phoneData: Partial<PhoneUpdateInput>): Promise<void>;
+    createPhone(phoneData: Partial<PhoneCreateInput>): Promise<string>;
     deletePhones(ids: string[]): Promise<void>;
     deletePhone(id: string): Promise<void>;
     getPhonesByEntities(entitiesIDs: string[]): Promise<ListResponse<Phone>>;
     getPhonesByEntity(entityID: string): Promise<ListResponse<Phone>>;
     deletePhonesByEntities(entitiesIDs: string[]): Promise<void>;
     deletePhonesByEntity(entityID: string): Promise<void>;
+    rebaseTypes(types: string[]): Promise<void>;
+    getEntitiesTypes(): string[];
   }
 
 
@@ -104,6 +113,7 @@ declare module '@via-profit-services/phones' {
     readonly totalCount: number;
   }
 
+ 
 
   export type Resolvers = {
     Query: {
@@ -123,19 +133,18 @@ declare module '@via-profit-services/phones' {
         input: {
           id?: string;
           number: string;
-          country: string;
-          description: string;
-          primary: boolean;
-          confirmed: boolean;
           type: string;
           entity: string;
+          country: string;
+          description?: string;
+          primary?: boolean;
+          confirmed?: boolean;
           metaData?: any;
         };
       }>;
       update: GraphQLFieldResolver<unknown, Context, {
         id: string;
         input: {
-          id?: string;
           number?: string;
           country?: string;
           description?: string;

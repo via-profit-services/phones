@@ -5,14 +5,27 @@ import contextMiddleware from './context-middleware';
 import resolvers from './resolvers';
 import typeDefs from './schema.graphql';
 
-const middlewareFactory: MiddlewareFactory = (configuration) => {
+interface Cache {
+  typesTableInit: boolean;
+}
+
+const middlewareFactory: MiddlewareFactory = async (configuration) => {
   const { entities } = configuration || {} as Configuration;
+
+  const cache: Cache = {
+    typesTableInit: false,
+  };
 
   const pool: ReturnType<Middleware> = {
     context: null,
   };
 
-  const middleware: Middleware = ({ context }) => {
+  const typeList = new Set(
+    [...entities || []].map((entity) => entity.replace(/[^a-zA-Z]/g, '')),
+  );
+  typeList.add('VoidPhoneEntity');
+
+  const middleware: Middleware = async ({ context }) => {
 
     // check knex dependencies
     if (typeof context.knex === 'undefined') {
@@ -22,13 +35,20 @@ const middlewareFactory: MiddlewareFactory = (configuration) => {
     }
 
     // define static context at once
-    pool.context = pool.context ?? contextMiddleware({ context });
+    pool.context = pool.context ?? contextMiddleware({ context, configuration });
+
+    const { services } = pool.context;
+
+    // check to init tables
+    if (!cache.typesTableInit) {
+      await services.phones.rebaseTypes([...typeList]);
+      cache.typesTableInit = true;
+    }
+
 
     return pool;
   };
 
-  const typeList = new Set(entities);
-  typeList.add('VoidPhoneEntity');
 
   return {
     middleware,

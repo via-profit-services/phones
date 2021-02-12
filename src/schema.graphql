@@ -49,7 +49,7 @@ type Phone implements Node {
   Description
   e.g. Director personal
   """
-  description: String!
+  description: String
   """
   Is primary phone number
   """
@@ -79,17 +79,16 @@ enum PhoneCountry {
 input PhoneInputCreate {
   id: ID
   entity: ID!
-  number: String!
   type: PhoneType!
+  number: String!
   country: PhoneCountry!
-  description: String!
-  primary: Boolean!
-  confirmed: Boolean!
+  description: String
+  primary: Boolean
+  confirmed: Boolean
   metaData: JSON
 }
 
 input PhoneInputUpdate {
-  id: ID!
   entity: ID
   type: PhoneType
   number: String
@@ -99,48 +98,6 @@ input PhoneInputUpdate {
   confirmed: Boolean
   metaData: JSON
 }
-
-"""
-Possible data to update phone entity
-"""
-input PhoneInput {
-  id: ID
-
-  """
-  Phone owner ID
-  """
-  entity: ID
-  """
-  Phone number (digits) without country code
-  e.g. for Russia: 9876543210
-  """
-  number: String!
-  """
-  Country code iso2
-  e.g. for Russia: RU
-  """
-  country: PhoneCountry!
-  """
-  Description
-  e.g. Director personal
-  """
-  description: String!
-  """
-  Is primary phone number
-  """
-  primary: Boolean!
-  """
-  Is confirmed phone number
-  """
-  confirmed: Boolean!
-  """
-  Any phone data
-  You can store any information here
-  """
-  metaData: JSON
-}
-
-
 
 enum PhoneOrderField {
   number
@@ -184,7 +141,7 @@ enum PhoneFilterSearchField {
 Phones search filter
 """
 input PhoneFilterSearch {
-  fields: [PhoneFilterSearchField!]!
+  field: [PhoneFilterSearchField!]!
 
   """
   Search query string
@@ -202,7 +159,7 @@ type PhonesQuery {
     after: String
     orderBy: [PhoneOrderBy!]
     filter: PhoneListFilter
-    search: PhoneFilterSearch
+    search: [PhoneFilterSearch!]
   ): PhoneListConnection!
 
   """
@@ -220,7 +177,7 @@ type PhonesMutation {
   """
   Update exists phone data
   """
-  update(input: PhoneInputUpdate!): Phone!
+  update(id: ID! input: PhoneInputUpdate!): Phone!
   
   """
   Delete one or more phones
