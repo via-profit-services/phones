@@ -1,7 +1,7 @@
 {
     "name": "@via-profit-services/phones",
     "support": "https://via-profit.ru",
-    "version": "1.0.3",
+    "version": "1.0.5",
     "description": "Via Profit Phones provider",
     "main": "dist/index.js",
     "engines": {
@@ -23,7 +23,7 @@
         "build:migrations": "webpack --config ./webpack/webpack-config-migrations.ts",
         "start": "yarn build:dev --watch",
         "test": "jest",
-        "lint": "eslint --ext .ts ./src/ --fix .",
+        "lint": "yarn dlx eslint --ext .ts ./src/ --fix .",
         "migrate:latest": "yarn knex migrate:latest --knexfile ./.knex/knexfile.js",
         "migrate:rollback": "yarn knex migrate:rollback --knexfile ./.knex/knexfile.js",
         "migrate:up": "yarn knex migrate:up --knexfile ./.knex/knexfile.js",
