@@ -39,6 +39,7 @@ const phonesMutationResolver: Resolvers['PhonesMutation'] = {
 
     try {
       const id = await services.phones.createPhone(input);
+      dataloader.phones.clear(id);
 
       return { id };
 
