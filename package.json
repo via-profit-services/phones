@@ -15,7 +15,7 @@
     ],
     "scripts": {
         "postinstall": "node ./scripts/postinstall.js",
-        "dist": "yarn lint && yarn test && yarn build:dist",
+        "dist": "yarn lint && yarn build:dist",
         "analyze": "cross-env ANALYZE=true yarn build:dist",
         "debug": "yarn build:dev && yarn node --inspect-brk=9229 ./build/index.js",
         "build:dev": "cross-env NODE_ENV=development webpack --config ./webpack/webpack-config-dev.ts",
