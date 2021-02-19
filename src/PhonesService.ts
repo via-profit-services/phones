@@ -125,6 +125,7 @@ class PhonesService {
     const data = this.prepareDataToInsert({
       ...phoneData,
       updatedAt: moment.tz(timezone).toDate(),
+      number: phoneData.number ? phoneData.number.replace(/[^\d]/g, '') : undefined,
     });
 
     await knex<PhonesTableModel>('phones')
