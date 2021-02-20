@@ -202,7 +202,15 @@ class PhonesService {
     const oldPhones = await this.getPhonesByEntity(entity);
     const phonesToReplace = phones.map((phone) => {
       const oldPhoneData = oldPhones.nodes.find(({ id }) => id === phone.id);
-      const { number, country, type, metaData, confirmed, primary, description } = oldPhoneData;
+      const {
+        number,
+        country,
+        type,
+        metaData,
+        confirmed,
+        primary,
+        description,
+      } = oldPhoneData || this.getDefaultPhoneRecord();
 
       return {
         number,
