@@ -144,7 +144,7 @@ declare module '@via-profit-services/phones' {
     readonly createdAt: Date;
     readonly number: string;
     readonly country: string;
-    readonly description: string;
+    readonly description: string | null;
     readonly primary: boolean;
     readonly confirmed: boolean;
     readonly metaData: unknown | null;

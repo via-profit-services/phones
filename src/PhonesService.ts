@@ -71,6 +71,7 @@ class PhonesService {
             international: phoneNumber.formatInternational(),
             uri: phoneNumber.getURI(),
           },
+          description: node.description || '',
           countryCallingCode: String(phoneNumber.countryCallingCode || ''),
           entity: !node.entity ? null : {
             id: node.entity,
