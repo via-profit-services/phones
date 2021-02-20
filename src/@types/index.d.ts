@@ -67,13 +67,13 @@ declare module '@via-profit-services/phones' {
 
   export type PhoneReplaceInput = {
     id: string;
+    type?: string;
     number?: string;
     country?: string;
     description?: string;
     primary?: boolean;
     confirmed?: boolean;
     metaData?: any;
-    type?: string;
   };
 
   export type ReplacePhonesResult = {
