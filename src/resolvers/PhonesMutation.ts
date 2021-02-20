@@ -1,22 +1,32 @@
-import { ServerError, BadRequestError } from '@via-profit-services/core';
+import { ServerError } from '@via-profit-services/core';
 import type { Resolvers } from '@via-profit-services/phones';
 
 
 const phonesMutationResolver: Resolvers['PhonesMutation'] = {
+  replace: async (_parent, args, context) => {
+    const { entity, input } = args;
+    const { dataloader, services } = context;
+
+    try {
+      const { affected, persistens } = await services.phones.replacePhones(entity, input);
+      affected.forEach((id) => {
+        dataloader.phones.clear(id);
+      });
+
+      return persistens.map((id) => ({ id }));
+
+    } catch (err) {
+      throw new ServerError('Failed to replace phones', { err });
+    }
+  },
   update: async (_parent, args, context) => {
     const { id, input } = args;
     const { dataloader, services } = context;
 
-    const prevPhoneData = await dataloader.phones.load(id);
-
-    if (!prevPhoneData) {
-      throw new BadRequestError(`Phone with id «${id}» was not found`);
-    }
-
     try {
       await services.phones.updatePhone(id, input);
     } catch (err) {
-      throw new ServerError('Failed to update phone', { err, id });
+      throw new ServerError('Failed to update phone', { err });
     }
 
     dataloader.phones.clear(id);
@@ -26,15 +36,6 @@ const phonesMutationResolver: Resolvers['PhonesMutation'] = {
   create: async (_parent, args, context) => {
     const { input } = args;
     const { services, dataloader } = context;
-
-    // check to exists
-    if (typeof input.id !== 'undefined') {
-      const existsPhone = await dataloader.phones.load(input.id);
-
-      if (!existsPhone) {
-        throw new BadRequestError(`Phone with id «${input.id}» already exists`);
-      }
-    }
 
 
     try {
@@ -48,7 +49,7 @@ const phonesMutationResolver: Resolvers['PhonesMutation'] = {
     }
   },
   delete: async (_parent, args, context) => {
-    const { services } = context;
+    const { services, dataloader } = context;
     const { id, ids } = args;
 
     const removeIDs = [
@@ -58,6 +59,10 @@ const phonesMutationResolver: Resolvers['PhonesMutation'] = {
 
     try {
       await services.phones.deletePhones(removeIDs);
+
+      removeIDs.forEach((id) => {
+        dataloader.phones.clear(id);
+      });
 
       return null;
 

@@ -99,6 +99,17 @@ input PhoneInputUpdate {
   metaData: JSON
 }
 
+input PhoneInputReplace {
+  id: ID!
+  type: PhoneType!
+  number: String!
+  country: PhoneCountry!
+  description: String!
+  primary: Boolean!
+  confirmed: Boolean!
+  metaData: JSON!
+}
+
 enum PhoneOrderField {
   number
   country
@@ -179,6 +190,10 @@ type PhonesMutation {
   """
   update(id: ID! input: PhoneInputUpdate!): Phone!
   
+  """
+  Replace exists phones to new phones collection
+  """
+  replace(entity: String! input: [PhoneInputReplace!]!): [Phone!]!
   """
   Delete one or more phones
   """

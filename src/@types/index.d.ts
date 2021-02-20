@@ -39,11 +39,48 @@ declare module '@via-profit-services/phones' {
     formatted: PhoneFormatted;
   }
 
-   export type PhoneCreateInput = Omit<Phone, 'entity' | 'countryCallingCode' | 'formatted'> & {
-     entity: string;
-   };
+  export type PhoneCreateInput = {
+    id?: string;
+    number: string;
+    country: string;
+    type: string;
+    entity: string;
+    description?: string;
+    primary?: boolean;
+    confirmed?: boolean;
+    metaData?: any;
+  };
 
-   export type PhoneUpdateInput = PhoneCreateInput;
+  export type PhoneUpdateInput = Partial<PhoneCreateInput>;
+
+  export type PhoneCreateOrUpdateInput = {
+    id: string;
+    number: string;
+    country: string;
+    description: string;
+    primary: boolean;
+    confirmed: boolean;
+    metaData?: any;
+    type: string;
+    entity: string;
+  };
+
+  export type PhoneReplaceInput = {
+    id: string;
+    number: string;
+    country: string;
+    description: string;
+    primary: boolean;
+    confirmed: boolean;
+    metaData?: any;
+    type: string;
+  };
+
+  export type ReplacePhonesResult = {
+    deleted: string[];
+    persistens: string[];
+    affected: string[];
+  };
 
   export interface PhoneFormatted {
     national: string;
@@ -70,9 +107,9 @@ declare module '@via-profit-services/phones' {
     getPhones(filter: Partial<OutputFilter>): Promise<ListResponse<Phone>>;
     getPhonesByIds(ids: string[]): Promise<Phone[]>;
     getPhone(id: string): Promise<Phone | false>;
-    prepareDataToInsert(input: Partial<PhoneCreateInput | PhoneUpdateInput>): Partial<PhonesTableModel>;
-    updatePhone(id: string, phoneData: Partial<PhoneUpdateInput>): Promise<void>;
-    createPhone(phoneData: Partial<PhoneCreateInput>): Promise<string>;
+    prepareDataToInsert(input: PhoneCreateInput | PhoneUpdateInput): PhonesTableModel;
+    updatePhone(id: string, phoneData: PhoneUpdateInput): Promise<string>;
+    createPhone(phoneData: PhoneCreateInput): Promise<string>;
     deletePhones(ids: string[]): Promise<void>;
     deletePhone(id: string): Promise<void>;
     getPhonesByEntities(entitiesIDs: string[]): Promise<ListResponse<Phone>>;
@@ -81,6 +118,9 @@ declare module '@via-profit-services/phones' {
     deletePhonesByEntity(entityID: string): Promise<void>;
     rebaseTypes(types: string[]): Promise<void>;
     getEntitiesTypes(): string[];
+    createOrUpdatePhones (phones: PhoneCreateOrUpdateInput[]): Promise<string[]>;
+    getDefaultPhoneRecord(): PhonesTableModel;
+    replacePhones (entity: string, phones: PhoneReplaceInput[]): Promise<ReplacePhonesResult>;
   }
 
 
@@ -154,6 +194,19 @@ declare module '@via-profit-services/phones' {
           entity?: string;
           metaData?: any;
         };
+      }>;
+      replace: GraphQLFieldResolver<unknown, Context, {
+        entity: string;
+        input: Array<{
+          id: string;
+          number: string;
+          country: string;
+          description: string;
+          primary: boolean;
+          confirmed: boolean;
+          metaData: any;
+          type: string;
+        }>;
       }>;
       delete: GraphQLFieldResolver<unknown, Context, {
         id?: string;
