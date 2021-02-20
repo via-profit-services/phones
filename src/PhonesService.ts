@@ -176,17 +176,17 @@ class PhonesService {
 
     const response = await knex.raw(`
       ${knex('phones').insert(phonesPrepared).toQuery()}
-      on conflict ("id") do update set
-        "updatedAt" = excluded."updatedAt",
-        "entity" = excluded."entity",
-        "type" = excluded."type",
-        "number" = excluded."number",
-        "country" = excluded."country",
-        "metaData" = excluded."metaData",
-        "confirmed" = excluded."confirmed",
-        "primary" = excluded."primary",
-        "description" = excluded."description"
-      returning id;
+      on conflict ("id") do update set\
+        "updatedAt" = excluded."updatedAt",\
+        "entity" = excluded."entity",\
+        "type" = excluded."type",\
+        "number" = excluded."number",\
+        "country" = excluded."country",\
+        "metaData" = excluded."metaData",\
+        "confirmed" = excluded."confirmed",\
+        "primary" = excluded."primary",\
+        "description" = excluded."description"\
+      returning id;\
     `);
 
     return (response as {rows: Array<{id: string}>})
@@ -198,11 +198,10 @@ class PhonesService {
     entity: string,
     phones: PhoneReplaceInput[],
   ): Promise<ReplacePhonesResult> {
-    const { dataloader } = this.props.context;
 
-    const oldPhones = await Promise.all(phones.map(({ id }) => dataloader.phones.load(id)));
+    const oldPhones = await this.getPhonesByEntity(entity);
     const phonesToReplace = phones.map((phone) => {
-      const oldPhoneData = oldPhones.find(({ id }) => id === phone.id);
+      const oldPhoneData = oldPhones.nodes.find(({ id }) => id === phone.id);
       const { number, country, type, metaData, confirmed, primary, description } = oldPhoneData;
 
       return {
@@ -220,7 +219,7 @@ class PhonesService {
 
     const newPhoneIdsOfThisEntity = await this.createOrUpdatePhones(phonesToReplace);
 
-    const phoneIDsToDelete = oldPhones
+    const phoneIDsToDelete = oldPhones.nodes
       .filter(({ id }) => !newPhoneIdsOfThisEntity.includes(id))
       .map(({ id }) => id);
 
