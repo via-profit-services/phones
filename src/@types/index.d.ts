@@ -60,20 +60,20 @@ declare module '@via-profit-services/phones' {
     description: string;
     primary: boolean;
     confirmed: boolean;
-    metaData?: any;
+    metaData: any;
     type: string;
     entity: string;
   };
 
   export type PhoneReplaceInput = {
     id: string;
-    number: string;
-    country: string;
-    description: string;
-    primary: boolean;
-    confirmed: boolean;
+    number?: string;
+    country?: string;
+    description?: string;
+    primary?: boolean;
+    confirmed?: boolean;
     metaData?: any;
-    type: string;
+    type?: string;
   };
 
   export type ReplacePhonesResult = {
@@ -199,13 +199,13 @@ declare module '@via-profit-services/phones' {
         entity: string;
         input: Array<{
           id: string;
-          number: string;
-          country: string;
-          description: string;
-          primary: boolean;
-          confirmed: boolean;
-          metaData: any;
-          type: string;
+          number?: string;
+          country?: string;
+          description?: string;
+          primary?: boolean;
+          confirmed?: boolean;
+          metaData?: any;
+          type?: string;
         }>;
       }>;
       delete: GraphQLFieldResolver<unknown, Context, {

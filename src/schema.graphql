@@ -101,13 +101,13 @@ input PhoneInputUpdate {
 
 input PhoneInputReplace {
   id: ID!
-  type: PhoneType!
-  number: String!
-  country: PhoneCountry!
-  description: String!
-  primary: Boolean!
-  confirmed: Boolean!
-  metaData: JSON!
+  type: PhoneType
+  number: String
+  country: PhoneCountry
+  description: String
+  primary: Boolean
+  confirmed: Boolean
+  metaData: JSON
 }
 
 enum PhoneOrderField {

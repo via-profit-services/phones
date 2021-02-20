@@ -197,21 +197,29 @@ class PhonesService {
     entity: string,
     phones: PhoneReplaceInput[],
   ): Promise<ReplacePhonesResult> {
-    const { knex } = this.props.context;
+    const { dataloader } = this.props.context;
 
-    const oldPhoneIdsOfThisEntity = await knex
-      .select('id')
-      .from<PhonesTableModel, Array<{id: string}>>('phones')
-      .where({ entity });
+    const oldPhones = await Promise.all(phones.map(({ id }) => dataloader.phones.load(id)));
+    const phonesToReplace = phones.map((phone) => {
+      const oldPhoneData = oldPhones.find(({ id }) => id === phone.id);
+      const { number, country, type, metaData, confirmed, primary, description } = oldPhoneData;
 
-    const phonesToReplace = phones.map((phone) => ({
-      ...phone,
-      entity,
-    }));
+      return {
+        number,
+        country,
+        type,
+        metaData,
+        confirmed,
+        primary,
+        description,
+        ...phone,
+        entity,
+      }
+    });
 
     const newPhoneIdsOfThisEntity = await this.createOrUpdatePhones(phonesToReplace);
 
-    const phoneIDsToDelete = oldPhoneIdsOfThisEntity
+    const phoneIDsToDelete = oldPhones
       .filter(({ id }) => !newPhoneIdsOfThisEntity.includes(id))
       .map(({ id }) => id);
 
