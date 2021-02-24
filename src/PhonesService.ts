@@ -174,9 +174,9 @@ class PhonesService {
       updatedAt: createdAt,
     }));
 
-    const response = await knex.raw(`
-      ${knex('phones').insert(phonesPrepared).toQuery()}
-      on conflict ("id") do update set\
+    const response = await knex.raw(
+      `${knex('phones').insert(phonesPrepared).toQuery()} \
+      on conflict ("id") do update set \
         "updatedAt" = excluded."updatedAt",\
         "entity" = excluded."entity",\
         "type" = excluded."type",\
@@ -186,8 +186,8 @@ class PhonesService {
         "confirmed" = excluded."confirmed",\
         "primary" = excluded."primary",\
         "description" = excluded."description"\
-      returning id;\
-    `);
+      returning id;`,
+    );
 
     return (response as {rows: Array<{id: string}>})
       .rows
