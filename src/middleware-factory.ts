@@ -1,4 +1,4 @@
-import { Middleware, ServerError, collateForDataloader, DataLoaderCollection } from '@via-profit-services/core';
+import { Middleware, ServerError, collateForDataloader } from '@via-profit-services/core';
 import type { MiddlewareFactory, Configuration } from '@via-profit-services/phones';
 import DataLoader from 'dataloader';
 
@@ -14,8 +14,6 @@ const middlewareFactory: MiddlewareFactory = async (configuration) => {
     [...entities || []].map((entity) => entity.replace(/[^a-zA-Z]/g, '')),
   );
   
-  const dataloadersMap = new Map<string, DataLoaderCollection['phones']>();
-  
   typeList.add('VoidPhoneEntity');
 
   const middleware: Middleware = async ({ context }) => {
@@ -30,18 +28,12 @@ const middlewareFactory: MiddlewareFactory = async (configuration) => {
     // inject phones service
     context.services.phones = new PhonesService({ context, entities });
 
-    // init dataloader
-    if (!dataloadersMap.get('phones')) {
-      const phonesLoader = new DataLoader(async (ids: string[]) => {
-        const nodes = await context.services.phones.getPhonesByIds(ids);
-        
-        return collateForDataloader(ids, nodes);
-      });
-      dataloadersMap.set('phones', phonesLoader);
-    }
-    
     // inject phones dataloader
-    context.dataloader.phones = dataloadersMap.get('phones');
+    context.dataloader.phones = new DataLoader(async (ids: string[]) => {
+      const nodes = await context.services.phones.getPhonesByIds(ids);
+
+      return collateForDataloader(ids, nodes);
+    });
 
 
     // check to init tables
