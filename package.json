@@ -1,7 +1,7 @@
 {
     "name": "@via-profit-services/phones",
     "support": "https://via-profit.ru",
-    "version": "1.0.13",
+    "version": "1.0.14",
     "description": "Via Profit Phones provider",
     "main": "dist/index.js",
     "engines": {
@@ -75,9 +75,9 @@
         "@types/webpack-merge": "^4.1.5",
         "@typescript-eslint/eslint-plugin": "^4.6.1",
         "@typescript-eslint/parser": "^4.6.1",
-        "@via-profit-services/core": "^1.0.2",
+        "@via-profit-services/core": "^1.0.5",
         "@via-profit-services/eslint-config": "^0.1.11",
-        "@via-profit-services/knex": "^1.0.2",
+        "@via-profit-services/knex": "^1.0.5",
         "@zerollup/ts-transform-paths": "^1.7.11",
         "cross-env": "^6.0.3",
         "dataloader": "^2.0.0",

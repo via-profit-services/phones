@@ -1024,9 +1024,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@via-profit-services/core@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@via-profit-services/core@npm:1.0.2"
+"@via-profit-services/core@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "@via-profit-services/core@npm:1.0.5"
   dependencies:
     bufferutil: ^4.0.2
     content-type: ^1.0.4
@@ -1045,7 +1045,7 @@ __metadata:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: 18dc82c9317d5b2403789c00d6217ffad9acda1990f995b2da1b2b480e87ec02d70ae3c31f0fd57f031eabb018f86d6e3f057b7245b4f6f5460c25c3e8f9493e
+  checksum: 70166fa0c9d99336224af96b3d451a2da715988a02208858bf176ab7cfcba9762e9b585bf010c9e0894066662a45333c8f9445c6ffc5e8099837a0a2e2b0c403
   languageName: node
   linkType: hard
 
@@ -1056,14 +1056,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@via-profit-services/knex@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "@via-profit-services/knex@npm:1.0.2"
+"@via-profit-services/knex@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "@via-profit-services/knex@npm:1.0.5"
   peerDependencies:
     "@via-profit-services/core": 1.x.x
     knex: ^0.21.12
     pg: ^8.5.1
-  checksum: 8ae338062b5f2d547bbaa6776349540b32bf61d8b0b2a5476ec2a068e60b90e50b121dadcdd6635d48860846190d380522303c71eb7fa6027f2019cf6dd2a08c
+  checksum: f84d9b96a2cc3444989cdec6b26d3f390706c70ef71740c8d39153b5ecf8731dfba3d2c0f6af55742573e350feb2567441b325851b89e20ad917102e69aae6bb
   languageName: node
   linkType: hard
 
@@ -1087,9 +1087,9 @@ __metadata:
     "@types/webpack-merge": ^4.1.5
     "@typescript-eslint/eslint-plugin": ^4.6.1
     "@typescript-eslint/parser": ^4.6.1
-    "@via-profit-services/core": ^1.0.2
+    "@via-profit-services/core": ^1.0.5
     "@via-profit-services/eslint-config": ^0.1.11
-    "@via-profit-services/knex": ^1.0.2
+    "@via-profit-services/knex": ^1.0.5
     "@zerollup/ts-transform-paths": ^1.7.11
     cross-env: ^6.0.3
     dataloader: ^2.0.0
