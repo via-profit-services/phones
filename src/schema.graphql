@@ -89,6 +89,7 @@ input PhoneInputCreate {
 }
 
 input PhoneInputUpdate {
+  id: ID
   entity: ID
   type: PhoneType
   number: String

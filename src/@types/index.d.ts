@@ -153,7 +153,41 @@ declare module '@via-profit-services/phones' {
     readonly totalCount: number;
   }
 
+
+  export type PhonesMutationCreateInput = {
+    id?: string;
+    number: string;
+    type: string;
+    entity: string;
+    country: string;
+    description?: string;
+    primary?: boolean;
+    confirmed?: boolean;
+    metaData?: any;
+  };
  
+  export type PhonesMutationUpdateInput = {
+    id?: string;
+    number?: string;
+    country?: string;
+    description?: string;
+    primary?: boolean;
+    confirmed?: boolean;
+    type?: string;
+    entity?: string;
+    metaData?: any;
+  };
+
+  export type PhonesMutationReplaceInput = Array<{
+    id: string;
+    number?: string;
+    country?: string;
+    description?: string;
+    primary?: boolean;
+    confirmed?: boolean;
+    metaData?: any;
+    type?: string;
+  }>;
 
   export type Resolvers = {
     Query: {
@@ -170,43 +204,15 @@ declare module '@via-profit-services/phones' {
     };
     PhonesMutation: {
       create: GraphQLFieldResolver<unknown, Context, {
-        input: {
-          id?: string;
-          number: string;
-          type: string;
-          entity: string;
-          country: string;
-          description?: string;
-          primary?: boolean;
-          confirmed?: boolean;
-          metaData?: any;
-        };
+        input: PhonesMutationCreateInput;
       }>;
       update: GraphQLFieldResolver<unknown, Context, {
         id: string;
-        input: {
-          number?: string;
-          country?: string;
-          description?: string;
-          primary?: boolean;
-          confirmed?: boolean;
-          type?: string;
-          entity?: string;
-          metaData?: any;
-        };
+        input: PhonesMutationUpdateInput;
       }>;
       replace: GraphQLFieldResolver<unknown, Context, {
         entity: string;
-        input: Array<{
-          id: string;
-          number?: string;
-          country?: string;
-          description?: string;
-          primary?: boolean;
-          confirmed?: boolean;
-          metaData?: any;
-          type?: string;
-        }>;
+        input: PhonesMutationReplaceInput;
       }>;
       delete: GraphQLFieldResolver<unknown, Context, {
         id?: string;
