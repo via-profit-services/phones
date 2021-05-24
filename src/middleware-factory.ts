@@ -1,6 +1,6 @@
-import { Middleware, ServerError, collateForDataloader } from '@via-profit-services/core';
+import { Middleware, ServerError } from '@via-profit-services/core';
 import type { MiddlewareFactory, Configuration } from '@via-profit-services/phones';
-import DataLoader from 'dataloader';
+import DataLoader from '@via-profit/dataloader';
 
 import PhonesService from './PhonesService';
 import resolvers from './resolvers';
@@ -13,7 +13,7 @@ const middlewareFactory: MiddlewareFactory = async (configuration) => {
   const typeList = new Set(
     [...entities || []].map((entity) => entity.replace(/[^a-zA-Z]/g, '')),
   );
-  
+
   typeList.add('VoidPhoneEntity');
 
   const middleware: Middleware = async ({ context }) => {
@@ -32,7 +32,11 @@ const middlewareFactory: MiddlewareFactory = async (configuration) => {
     context.dataloader.phones = new DataLoader(async (ids: string[]) => {
       const nodes = await context.services.phones.getPhonesByIds(ids);
 
-      return collateForDataloader(ids, nodes);
+      return nodes;
+    }, {
+      redis: context.redis,
+      cacheName: 'phones',
+      defaultExpiration: '1h',
     });
 
 

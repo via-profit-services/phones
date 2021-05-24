@@ -230,7 +230,7 @@ declare module '@via-profit-services/phones' {
 
 declare module '@via-profit-services/core' {
   import { PhonesService, Phone } from '@via-profit-services/phones';
-  import DataLoader from 'dataloader';
+  import DataLoader from '@via-profit/dataloader';
 
   interface ServicesCollection {
     /**
@@ -243,6 +243,6 @@ declare module '@via-profit-services/core' {
     /**
      * Accounts dataloader
      */
-    phones: DataLoader<string, Node<Phone>>;
+    phones: DataLoader<Phone>;
   }
 }

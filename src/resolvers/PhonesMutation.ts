@@ -9,9 +9,7 @@ const phonesMutationResolver: Resolvers['PhonesMutation'] = {
 
     try {
       const { affected, persistens } = await services.phones.replacePhones(entity, input);
-      affected.forEach((id) => {
-        dataloader.phones.clear(id);
-      });
+      await dataloader.phones.clearMany(affected);
 
       return persistens.map((id) => ({ id }));
 
@@ -29,7 +27,7 @@ const phonesMutationResolver: Resolvers['PhonesMutation'] = {
       throw new ServerError('Failed to update phone', { err });
     }
 
-    dataloader.phones.clear(id);
+    await dataloader.phones.clear(id);
 
     return { id };
   },
@@ -40,7 +38,7 @@ const phonesMutationResolver: Resolvers['PhonesMutation'] = {
 
     try {
       const id = await services.phones.createPhone(input);
-      dataloader.phones.clear(id);
+      await dataloader.phones.clear(id);
 
       return { id };
 
@@ -59,10 +57,7 @@ const phonesMutationResolver: Resolvers['PhonesMutation'] = {
 
     try {
       await services.phones.deletePhones(removeIDs);
-
-      removeIDs.forEach((id) => {
-        dataloader.phones.clear(id);
-      });
+      await dataloader.phones.clearMany(removeIDs);
 
       return null;
 

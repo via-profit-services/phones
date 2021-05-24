@@ -1,7 +1,7 @@
 {
     "name": "@via-profit-services/phones",
     "support": "https://via-profit.ru",
-    "version": "1.0.15",
+    "version": "1.2.0",
     "description": "Via Profit Phones provider",
     "main": "dist/index.js",
     "engines": {
@@ -52,7 +52,6 @@
     "peerDependencies": {
         "@via-profit-services/core": "^1.0.0",
         "@via-profit-services/knex": "^1.0.0",
-        "dataloader": "*",
         "libphonenumber-js": "*",
         "moment": "",
         "moment-timezone": "*",
@@ -78,9 +77,10 @@
         "@via-profit-services/core": "^1.0.5",
         "@via-profit-services/eslint-config": "^0.1.11",
         "@via-profit-services/knex": "^1.0.5",
+        "@via-profit-services/redis": "^1.0.4",
+        "@via-profit/dataloader": "^1.0.0",
         "@zerollup/ts-transform-paths": "^1.7.11",
         "cross-env": "^6.0.3",
-        "dataloader": "^2.0.0",
         "dotenv": "^8.2.0",
         "eslint": "^7.12.1",
         "eslint-config-prettier": "^6.15.0",
@@ -96,6 +96,7 @@
         "eslint-plugin-standard": "^4.0.2",
         "express": "^4.17.1",
         "graphql": "^15.4.0",
+        "ioredis": "^4.27.3",
         "jest": "^24.9.0",
         "jest-transform-graphql": "^2.1.0",
         "knex": "^0.21.12",

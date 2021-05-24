@@ -12,9 +12,6 @@ const webpackProdConfig: Configuration = merge(webpackBaseConfig, {
     index: path.resolve(__dirname, '../src/index.ts'),
     schema: path.resolve(__dirname, '../src/schema.graphql'),
   },
-  optimization: {
-    minimize: false,
-  },
   output: {
     path: path.join(__dirname, '../dist/'),
     filename: '[name].js',
@@ -24,7 +21,7 @@ const webpackProdConfig: Configuration = merge(webpackBaseConfig, {
   plugins: [
     new BannerPlugin({
       banner: `
-Via Profit Services / Phones Servoce
+Via Profit Services / Phones Service
 
 Repository ${packageInfo.repository.url}
 Contact    ${packageInfo.support}

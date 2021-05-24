@@ -24,6 +24,7 @@ const webpackBaseConfig: Configuration = {
   },
   externals: [
     ...knexExternals,
+    /^@via-profit\/dataloader/,
     /^@via-profit-services\/.*/,
     /^graphql$/,
     /^moment$/,
