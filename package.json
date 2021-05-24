@@ -52,7 +52,9 @@
     "peerDependencies": {
         "@via-profit-services/core": "^1.0.0",
         "@via-profit-services/knex": "^1.0.0",
-        "libphonenumber-js": "*",
+        "@via-profit/dataloader": "^1.0.0",
+        "ioredis": "^4.27.3",
+        "libphonenumber-js": "^1.9.18",
         "moment": "",
         "moment-timezone": "*",
         "uuid": "*"
