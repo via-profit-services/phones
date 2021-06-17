@@ -10,6 +10,9 @@ import type {
   PhonesTableModel,
   PhoneCreateInput,
   PhoneUpdateInput,
+  PhoneCreateOrUpdateInput,
+  PhoneReplaceInput,
+  ReplacePhonesResult,
 } from '@via-profit-services/phones';
 import { parsePhoneNumberFromString, CountryCode } from 'libphonenumber-js';
 import moment from 'moment-timezone';
@@ -68,6 +71,7 @@ class PhonesService {
             international: phoneNumber.formatInternational(),
             uri: phoneNumber.getURI(),
           },
+          description: node.description || '',
           countryCallingCode: String(phoneNumber.countryCallingCode || ''),
           entity: !node.entity ? null : {
             id: node.entity,
@@ -103,49 +107,137 @@ class PhonesService {
     return nodes.length ? nodes[0] : false;
   }
 
+  public getDefaultPhoneRecord(): PhonesTableModel {
+    const { timezone } = this.props.context;
 
-  public prepareDataToInsert(
-    input: Partial<PhoneCreateInput | PhoneUpdateInput>,
-    ): Partial<PhonesTableModel> {
-    const { context } = this.props;
-    const { timezone } = context;
-    const phoneData: Partial<PhonesTableModel> = {
-      ...input,
-      metaData: input.metaData ? JSON.stringify(input.metaData) : undefined,
-      createdAt: input.createdAt ? moment.tz(input.createdAt, timezone).format() : undefined,
-      updatedAt: input.updatedAt ? moment.tz(input.updatedAt, timezone).format() : undefined,
+    const createdAt = moment.tz(timezone).format();
+    const phoneData: PhonesTableModel = {
+      createdAt,
+      updatedAt: createdAt,
+      id: uuidv4(),
+      metaData: undefined,
+      country: 'RU',
+      number: '',
+      description: null,
+      primary: false,
+      confirmed: false,
+      entity: '',
+      type: 'User',
     };
 
     return phoneData;
   }
 
-  public async updatePhone(id: string, phoneData: Partial<PhoneUpdateInput>) {
-    const { knex, timezone } = this.props.context;
+  public prepareDataToInsert(input: PhoneCreateInput | PhoneUpdateInput): PhonesTableModel {
+    const phoneData: PhonesTableModel = {
+      ...this.getDefaultPhoneRecord(),
+      ...input,
+      metaData: input.metaData ? JSON.stringify(input.metaData) : undefined,
+    };
 
-    const data = this.prepareDataToInsert({
-      ...phoneData,
-      updatedAt: moment.tz(timezone).toDate(),
-    });
-
-    await knex<PhonesTableModel>('phones')
-      .update(data)
-      .where('id', id)
-      .returning('id');
+    return phoneData;
   }
 
-  public async createPhone(phoneData: Partial<PhoneCreateInput>) {
-    const { knex, timezone } = this.props.context;
-    const createdAt = moment.tz(timezone).toDate();
+  public async updatePhone(id: string, phone: PhoneUpdateInput) {
 
-    const data = this.prepareDataToInsert({
-      ...phoneData,
-      id: phoneData.id ? phoneData.id : uuidv4(),
+    const defaultPhoneData = this.getDefaultPhoneRecord();
+    const phones = [phone].map((data) => ({
+      ...defaultPhoneData,
+      id,
+      ...data,
+    }));
+    const insertedIDs = await this.createOrUpdatePhones(phones);
+
+    return insertedIDs[0];
+  }
+
+  public async createPhone(phone: PhoneCreateInput) {
+
+    const defaultPhoneData = this.getDefaultPhoneRecord();
+    const phones = [phone].map((data) => ({
+      ...defaultPhoneData,
+      ...data,
+    }));
+    const insertedIDs = await this.createOrUpdatePhones(phones);
+
+    return insertedIDs[0];
+  }
+
+  public async createOrUpdatePhones (phones: PhoneCreateOrUpdateInput[]): Promise<string[]> {
+    const { context } = this.props;
+    const { knex, timezone } = context;
+
+    const createdAt = moment.tz(timezone).toDate();
+    const phonesPrepared = phones.map((phone) => ({
+      ...this.prepareDataToInsert(phone),
       createdAt,
       updatedAt: createdAt,
-    });
-    const result = await knex<PhonesTableModel>('phones').insert(data).returning('id');
+    }));
 
-    return result[0];
+    const response = await knex.raw(
+      `${knex('phones').insert(phonesPrepared).toQuery()} \
+      on conflict ("id") do update set \
+        "updatedAt" = excluded."updatedAt",\
+        "entity" = excluded."entity",\
+        "type" = excluded."type",\
+        "number" = excluded."number",\
+        "country" = excluded."country",\
+        "metaData" = excluded."metaData",\
+        "confirmed" = excluded."confirmed",\
+        "primary" = excluded."primary",\
+        "description" = excluded."description"\
+      returning id;`,
+    );
+
+    return (response as {rows: Array<{id: string}>})
+      .rows
+      .map(({ id }) => id);
+  }
+
+  public async replacePhones (
+    entity: string,
+    phones: PhoneReplaceInput[],
+  ): Promise<ReplacePhonesResult> {
+
+    const oldPhones = await this.getPhonesByEntity(entity);
+    const phonesToReplace = phones.map((phone) => {
+      const oldPhoneData = oldPhones.nodes.find(({ id }) => id === phone.id);
+      const {
+        number,
+        country,
+        type,
+        metaData,
+        confirmed,
+        primary,
+        description,
+      } = oldPhoneData || this.getDefaultPhoneRecord();
+
+      return {
+        number,
+        country,
+        type,
+        metaData,
+        confirmed,
+        primary,
+        description,
+        ...phone,
+        entity,
+      }
+    });
+
+    const newPhoneIdsOfThisEntity = await this.createOrUpdatePhones(phonesToReplace);
+
+    const phoneIDsToDelete = oldPhones.nodes
+      .filter(({ id }) => !newPhoneIdsOfThisEntity.includes(id))
+      .map(({ id }) => id);
+
+    await this.deletePhones(phoneIDsToDelete);
+
+    return {
+      deleted: phoneIDsToDelete,
+      persistens: newPhoneIdsOfThisEntity,
+      affected: phoneIDsToDelete.concat(newPhoneIdsOfThisEntity),
+    };
   }
 
   public async deletePhones(ids: string[]) {

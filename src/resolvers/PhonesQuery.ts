@@ -10,11 +10,7 @@ export const PhonesQueryResolver: Resolvers['PhonesQuery'] = {
     try {
       const phonesConnection = await services.phones.getPhones(filter);
       const connection = buildCursorConnection(phonesConnection, 'phones');
-
-      // fill the cache
-      phonesConnection.nodes.forEach((node) => {
-        dataloader.phones.clear(node.id).prime(node.id, node);
-      });
+      await dataloader.phones.primeMany(phonesConnection.nodes)
 
       return connection;
     } catch (err) {

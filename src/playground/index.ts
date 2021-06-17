@@ -2,6 +2,7 @@
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { factory, resolvers, typeDefs } from '@via-profit-services/core';
 import * as knex from '@via-profit-services/knex';
+import * as redis from '@via-profit-services/redis';
 import dotenv from 'dotenv';
 import express from 'express';
 import { createServer } from 'http';
@@ -15,6 +16,8 @@ dotenv.config();
   const port = Number(process.env.PORT);
   const app = express();
   const server = createServer(app);
+
+  const redisMiddleware = redis.factory();
 
   const phones = await phonesFactory({
     entities: ['SomePerson'],
@@ -60,6 +63,7 @@ dotenv.config();
     debug: process.env.DEBUG === 'true',
     middleware: [
       knexMiddleware,
+      redisMiddleware,
       phones.middleware,
     ],
   });

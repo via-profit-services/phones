@@ -53,12 +53,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/webpack-merge", "npm:4.1.5"],
             ["@typescript-eslint/eslint-plugin", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:4.8.2"],
             ["@typescript-eslint/parser", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:4.8.2"],
-            ["@via-profit-services/core", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.2"],
+            ["@via-profit-services/core", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.5"],
             ["@via-profit-services/eslint-config", "npm:0.1.11"],
-            ["@via-profit-services/knex", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.2"],
+            ["@via-profit-services/knex", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.5"],
+            ["@via-profit-services/redis", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.4"],
+            ["@via-profit/dataloader", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.0"],
             ["@zerollup/ts-transform-paths", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.7.18"],
             ["cross-env", "npm:6.0.3"],
-            ["dataloader", "npm:2.0.0"],
             ["dotenv", "npm:8.2.0"],
             ["eslint", "npm:7.14.0"],
             ["eslint-config-prettier", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:6.15.0"],
@@ -74,6 +75,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-standard", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:4.1.0"],
             ["express", "npm:4.17.1"],
             ["graphql", "npm:15.4.0"],
+            ["ioredis", "npm:4.27.3"],
             ["jest", "npm:24.9.0"],
             ["jest-transform-graphql", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:2.1.0"],
             ["knex", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:0.21.16"],
@@ -1291,10 +1293,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@via-profit-services/core", [
-        ["virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.2", {
-          "packageLocation": "./.yarn/$$virtual/@via-profit-services-core-virtual-ff38c82255/0/cache/@via-profit-services-core-npm-1.0.2-8d54b96671-18dc82c931.zip/node_modules/@via-profit-services/core/",
+        ["virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.5", {
+          "packageLocation": "./.yarn/$$virtual/@via-profit-services-core-virtual-399003a86e/0/cache/@via-profit-services-core-npm-1.0.5-60a1610ede-70166fa0c9.zip/node_modules/@via-profit-services/core/",
           "packageDependencies": [
-            ["@via-profit-services/core", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.2"],
+            ["@via-profit-services/core", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.5"],
             ["@types/dataloader", null],
             ["@types/express", "npm:4.17.9"],
             ["@types/graphql", null],
@@ -1304,7 +1306,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/winston-daily-rotate-file", null],
             ["bufferutil", "npm:4.0.2"],
             ["content-type", "npm:1.0.4"],
-            ["dataloader", "npm:2.0.0"],
+            ["dataloader", null],
             ["express", "npm:4.17.1"],
             ["graphql", "npm:15.4.0"],
             ["moment", "npm:2.29.1"],
@@ -1343,14 +1345,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@via-profit-services/knex", [
-        ["virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.2", {
-          "packageLocation": "./.yarn/$$virtual/@via-profit-services-knex-virtual-ddd737acaf/0/cache/@via-profit-services-knex-npm-1.0.2-ecd0d9e79a-8ae338062b.zip/node_modules/@via-profit-services/knex/",
+        ["virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.5", {
+          "packageLocation": "./.yarn/$$virtual/@via-profit-services-knex-virtual-62781e2543/0/cache/@via-profit-services-knex-npm-1.0.5-620a759a18-f84d9b96a2.zip/node_modules/@via-profit-services/knex/",
           "packageDependencies": [
-            ["@via-profit-services/knex", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.2"],
+            ["@via-profit-services/knex", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.5"],
             ["@types/knex", null],
             ["@types/pg", null],
             ["@types/via-profit-services__core", null],
-            ["@via-profit-services/core", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.2"],
+            ["@via-profit-services/core", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.5"],
             ["knex", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:0.21.16"],
             ["pg", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:8.5.1"]
           ],
@@ -1386,12 +1388,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/webpack-merge", "npm:4.1.5"],
             ["@typescript-eslint/eslint-plugin", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:4.8.2"],
             ["@typescript-eslint/parser", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:4.8.2"],
-            ["@via-profit-services/core", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.2"],
+            ["@via-profit-services/core", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.5"],
             ["@via-profit-services/eslint-config", "npm:0.1.11"],
-            ["@via-profit-services/knex", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.2"],
+            ["@via-profit-services/knex", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.5"],
+            ["@via-profit-services/redis", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.4"],
+            ["@via-profit/dataloader", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.0"],
             ["@zerollup/ts-transform-paths", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.7.18"],
             ["cross-env", "npm:6.0.3"],
-            ["dataloader", "npm:2.0.0"],
             ["dotenv", "npm:8.2.0"],
             ["eslint", "npm:7.14.0"],
             ["eslint-config-prettier", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:6.15.0"],
@@ -1407,6 +1410,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-standard", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:4.1.0"],
             ["express", "npm:4.17.1"],
             ["graphql", "npm:15.4.0"],
+            ["ioredis", "npm:4.27.3"],
             ["jest", "npm:24.9.0"],
             ["jest-transform-graphql", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:2.1.0"],
             ["knex", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:0.21.16"],
@@ -1437,6 +1441,40 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["winston-daily-rotate-file", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:4.5.0"]
           ],
           "linkType": "SOFT",
+        }]
+      ]],
+      ["@via-profit-services/redis", [
+        ["virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.4", {
+          "packageLocation": "./.yarn/$$virtual/@via-profit-services-redis-virtual-3338a7603e/0/cache/@via-profit-services-redis-npm-1.0.4-98103daf62-ea707e105d.zip/node_modules/@via-profit-services/redis/",
+          "packageDependencies": [
+            ["@via-profit-services/redis", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.4"],
+            ["@types/ioredis", null],
+            ["@types/via-profit-services__core", null],
+            ["@via-profit-services/core", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.5"],
+            ["ioredis", "npm:4.27.3"]
+          ],
+          "packagePeers": [
+            "@types/ioredis",
+            "@types/via-profit-services__core",
+            "@via-profit-services/core",
+            "ioredis"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@via-profit/dataloader", [
+        ["virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.0", {
+          "packageLocation": "./.yarn/$$virtual/@via-profit-dataloader-virtual-b047044da7/0/cache/@via-profit-dataloader-npm-1.0.0-86223586d1-b2d9436ed6.zip/node_modules/@via-profit/dataloader/",
+          "packageDependencies": [
+            ["@via-profit/dataloader", "virtual:c8eed87c3d4b844993e0e0e7f2113a6c5e732475655f074eb19d9077f7c588dc3f8705075d79d081334d79fdab031c5da43264979591a1dd972c2c557d0ea197#npm:1.0.0"],
+            ["@types/ioredis", null],
+            ["ioredis", "npm:4.27.3"]
+          ],
+          "packagePeers": [
+            "@types/ioredis",
+            "ioredis"
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@webassemblyjs/ast", [
@@ -3073,6 +3111,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["cluster-key-slot", [
+        ["npm:1.1.0", {
+          "packageLocation": "./.yarn/cache/cluster-key-slot-npm-1.1.0-c895b3234e-3b41b06942.zip/node_modules/cluster-key-slot/",
+          "packageDependencies": [
+            ["cluster-key-slot", "npm:1.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["co", [
         ["npm:4.6.0", {
           "packageLocation": "./.yarn/cache/co-npm-4.6.0-03f2d1feb6-3f22dbbe0f.zip/node_modules/co/",
@@ -3548,15 +3595,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["dataloader", [
-        ["npm:2.0.0", {
-          "packageLocation": "./.yarn/cache/dataloader-npm-2.0.0-216fa8d208-0165c2e807.zip/node_modules/dataloader/",
-          "packageDependencies": [
-            ["dataloader", "npm:2.0.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["debug", [
         ["virtual:32d518cf0b31bb6a89752a7677279905792742112aeb84df2d9627d6c785571935b846641f5f4463d5d38c7163709ac1edc51e3e7084a20f01aa836b1bc0811c#npm:4.3.1", {
           "packageLocation": "./.yarn/$$virtual/debug-virtual-7158493570/0/cache/debug-npm-4.3.1-22e08d605e-0d41ba5177.zip/node_modules/debug/",
@@ -3586,6 +3624,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/$$virtual/debug-virtual-91dca6aa8e/0/cache/debug-npm-4.3.1-22e08d605e-0d41ba5177.zip/node_modules/debug/",
           "packageDependencies": [
             ["debug", "virtual:88318143fb6d80d1f55c54ae799fe6cfcf29c86ca9b9dae7a485ec5bdb22c3a20f79119854bb9696c57b5a03879e8671e3e9d39fcd8ca2cec3e6655f73233a79#npm:4.3.1"],
+            ["ms", "npm:2.1.2"],
+            ["supports-color", null]
+          ],
+          "packagePeers": [
+            "supports-color"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:899bb9a14108b711df95b94b34c8e9b8100174a05995cafd31daa672db73740bac33b21385d0dec240a66de1017ca499e47a3b5a6d0eee80e82866424bd6106e#npm:4.3.2", {
+          "packageLocation": "./.yarn/$$virtual/debug-virtual-0cf2566f47/0/cache/debug-npm-4.3.2-f0148b6afe-5543570879.zip/node_modules/debug/",
+          "packageDependencies": [
+            ["debug", "virtual:899bb9a14108b711df95b94b34c8e9b8100174a05995cafd31daa672db73740bac33b21385d0dec240a66de1017ca499e47a3b5a6d0eee80e82866424bd6106e#npm:4.3.2"],
             ["ms", "npm:2.1.2"],
             ["supports-color", null]
           ],
@@ -3767,6 +3817,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/delegates-npm-1.0.0-9b1942d75f-7459e34d29.zip/node_modules/delegates/",
           "packageDependencies": [
             ["delegates", "npm:1.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["denque", [
+        ["npm:1.5.0", {
+          "packageLocation": "./.yarn/cache/denque-npm-1.5.0-fd3ca7b46a-3564778cda.zip/node_modules/denque/",
+          "packageDependencies": [
+            ["denque", "npm:1.5.0"]
           ],
           "linkType": "HARD",
         }]
@@ -6161,6 +6220,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["ioredis", [
+        ["npm:4.27.3", {
+          "packageLocation": "./.yarn/cache/ioredis-npm-4.27.3-899bb9a141-f7080a5912.zip/node_modules/ioredis/",
+          "packageDependencies": [
+            ["ioredis", "npm:4.27.3"],
+            ["cluster-key-slot", "npm:1.1.0"],
+            ["debug", "virtual:899bb9a14108b711df95b94b34c8e9b8100174a05995cafd31daa672db73740bac33b21385d0dec240a66de1017ca499e47a3b5a6d0eee80e82866424bd6106e#npm:4.3.2"],
+            ["denque", "npm:1.5.0"],
+            ["lodash.defaults", "npm:4.2.0"],
+            ["lodash.flatten", "npm:4.4.0"],
+            ["p-map", "npm:2.1.0"],
+            ["redis-commands", "npm:1.7.0"],
+            ["redis-errors", "npm:1.2.0"],
+            ["redis-parser", "npm:3.0.0"],
+            ["standard-as-callback", "npm:2.1.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["ip", [
         ["npm:1.1.5", {
           "packageLocation": "./.yarn/cache/ip-npm-1.1.5-af36318aa6-3ad007368c.zip/node_modules/ip/",
@@ -7684,6 +7762,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/lodash-npm-4.17.20-c0db62021c-c62101d250.zip/node_modules/lodash/",
           "packageDependencies": [
             ["lodash", "npm:4.17.20"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.defaults", [
+        ["npm:4.2.0", {
+          "packageLocation": "./.yarn/cache/lodash.defaults-npm-4.2.0-c5dea025ab-fde72e71f7.zip/node_modules/lodash.defaults/",
+          "packageDependencies": [
+            ["lodash.defaults", "npm:4.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["lodash.flatten", [
+        ["npm:4.4.0", {
+          "packageLocation": "./.yarn/cache/lodash.flatten-npm-4.4.0-495935e617-f22a7f6f16.zip/node_modules/lodash.flatten/",
+          "packageDependencies": [
+            ["lodash.flatten", "npm:4.4.0"]
           ],
           "linkType": "HARD",
         }]
@@ -9922,6 +10018,34 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["redis-commands", [
+        ["npm:1.7.0", {
+          "packageLocation": "./.yarn/cache/redis-commands-npm-1.7.0-528f61f9d8-cbf5d33768.zip/node_modules/redis-commands/",
+          "packageDependencies": [
+            ["redis-commands", "npm:1.7.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["redis-errors", [
+        ["npm:1.2.0", {
+          "packageLocation": "./.yarn/cache/redis-errors-npm-1.2.0-a81fd9b0f1-b260bb64a1.zip/node_modules/redis-errors/",
+          "packageDependencies": [
+            ["redis-errors", "npm:1.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["redis-parser", [
+        ["npm:3.0.0", {
+          "packageLocation": "./.yarn/cache/redis-parser-npm-3.0.0-7ebe40abcb-45dbcb05be.zip/node_modules/redis-parser/",
+          "packageDependencies": [
+            ["redis-parser", "npm:3.0.0"],
+            ["redis-errors", "npm:1.2.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["reduce-flatten", [
         ["npm:2.0.0", {
           "packageLocation": "./.yarn/cache/reduce-flatten-npm-2.0.0-01bd4936fa-216ce860c7.zip/node_modules/reduce-flatten/",
@@ -10923,6 +11047,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["stack-utils", "npm:1.0.4"],
             ["escape-string-regexp", "npm:2.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["standard-as-callback", [
+        ["npm:2.1.0", {
+          "packageLocation": "./.yarn/cache/standard-as-callback-npm-2.1.0-8e47620bd4-4d02327de6.zip/node_modules/standard-as-callback/",
+          "packageDependencies": [
+            ["standard-as-callback", "npm:2.1.0"]
           ],
           "linkType": "HARD",
         }]

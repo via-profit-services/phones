@@ -1,28 +1,19 @@
 import { Middleware, ServerError } from '@via-profit-services/core';
 import type { MiddlewareFactory, Configuration } from '@via-profit-services/phones';
+import DataLoader from '@via-profit/dataloader';
 
-import contextMiddleware from './context-middleware';
+import PhonesService from './PhonesService';
 import resolvers from './resolvers';
 import typeDefs from './schema.graphql';
 
-interface Cache {
-  typesTableInit: boolean;
-}
 
 const middlewareFactory: MiddlewareFactory = async (configuration) => {
+  let typesTableInit = false;
   const { entities } = configuration || {} as Configuration;
-
-  const cache: Cache = {
-    typesTableInit: false,
-  };
-
-  const pool: ReturnType<Middleware> = {
-    context: null,
-  };
-
   const typeList = new Set(
     [...entities || []].map((entity) => entity.replace(/[^a-zA-Z]/g, '')),
   );
+
   typeList.add('VoidPhoneEntity');
 
   const middleware: Middleware = async ({ context }) => {
@@ -34,19 +25,30 @@ const middlewareFactory: MiddlewareFactory = async (configuration) => {
       );
     }
 
-    // define static context at once
-    pool.context = pool.context ?? contextMiddleware({ context, configuration });
+    // inject phones service
+    context.services.phones = new PhonesService({ context, entities });
 
-    const { services } = pool.context;
+    // inject phones dataloader
+    context.dataloader.phones = new DataLoader(async (ids: string[]) => {
+      const nodes = await context.services.phones.getPhonesByIds(ids);
+
+      return nodes;
+    }, {
+      redis: context.redis,
+      cacheName: 'phones',
+      defaultExpiration: '1h',
+    });
+
 
     // check to init tables
-    if (!cache.typesTableInit) {
-      await services.phones.rebaseTypes([...typeList]);
-      cache.typesTableInit = true;
+    if (!typesTableInit) {
+      await context.services.phones.rebaseTypes([...typeList]);
+      typesTableInit = true;
     }
 
-
-    return pool;
+    return {
+      context,
+    };
   };
 
 
