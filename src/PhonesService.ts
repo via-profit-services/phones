@@ -44,7 +44,7 @@ class PhonesService {
   public async getPhones(filter: Partial<OutputFilter>): Promise<ListResponse<Phone>> {
     const { context } = this.props;
     const { knex } = context;
-    const { limit, offset, orderBy, where, search } = filter;
+    const { limit, offset, orderBy, where, search, revert } = filter;
 
     const result = await knex
       .select([
@@ -83,6 +83,7 @@ class PhonesService {
       .then((nodes) => ({
         ...extractTotalCountPropOfNode(nodes),
           offset,
+          revert,
           limit,
           orderBy,
           where,
